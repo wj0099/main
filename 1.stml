@@ -1,0 +1,66 @@
+import React, { useEffect, useState } from "react";
+))}
+</div>
+</div>
+);
+}
+
+
+function DrawTab({ prizes, runDraw, logs }) {
+const [count, setCount] = useState(1);
+
+
+return (
+<div>
+<div className="grid md:grid-cols-3 gap-4 mb-4">
+<div className="p-4 bg-gray-50 rounded">
+<div className="text-sm text-gray-500">총 상품 종류</div>
+<div className="text-xl font-semibold">{prizes.length}</div>
+</div>
+<div className="p-4 bg-gray-50 rounded">
+<div className="text-sm text-gray-500">총 남은 재고</div>
+<div className="text-xl font-semibold">{prizes.reduce((s, p) => s + p.stock, 0)}</div>
+</div>
+<div className="p-4 bg-gray-50 rounded">
+<div className="text-sm text-gray-500">추첨 수 (한 번에)</div>
+<input type="number" min={1} value={count} onChange={e => setCount(Number(e.target.value))} className="w-24 p-2 border rounded mt-2" />
+</div>
+</div>
+
+
+<div className="flex gap-2 mb-6">
+<button onClick={() => runDraw({ count })} className="px-4 py-2 bg-green-600 text-white rounded">추첨 실행</button>
+<button onClick={() => {
+if (!confirm('재고를 소모하지 않고 랜덤 추천만 하시겠습니까?')) return;
+// quick preview: use alert to show picks but do not modify stock
+const preview = [];
+const pool = prizes.filter(p => p.stock > 0);
+for (let i = 0; i < count; i++) {
+if (pool.length === 0) break;
+const total = pool.reduce((s, p) => s + (p.weight || 1), 0);
+let r = Math.random() * total;
+for (const p of pool) {
+r -= (p.weight || 1);
+if (r <= 0) { preview.push(p); break; }
+}
+}
+alert('추천(미적용): ' + preview.map(p => p.name).join(', '));
+}} className="px-4 py-2 bg-gray-200 rounded">미리보기</button>
+</div>
+
+
+<div>
+<h3 className="font-medium mb-2">추첨 기록</h3>
+<div className="space-y-2">
+{logs.length === 0 && <div className="text-sm text-gray-500">기록이 없습니다.</div>}
+{logs.map((l, i) => (
+<div key={i} className="p-3 bg-white border rounded">
+<div className="text-xs text-gray-400">{new Date(l.timestamp).toLocaleString()}</div>
+<div className="mt-1">{l.winners.map(w => w.name).join(', ')}</div>
+</div>
+))}
+</div>
+</div>
+</div>
+);
+}
