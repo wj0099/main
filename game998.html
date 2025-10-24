@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>미로 탈출 게임</title>
+
+    <!-- === CSS === -->
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f8ff;
+            font-family: Arial, sans-serif;
+            user-select: none;
+        }
+
+        #maze-container {
+            border: 5px solid #333;
+            background-color: #fff;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* CSS Grid를 이용해 미로 구조 생성 */
+        #maze {
+            display: grid;
+            /* JS에서 grid-template-columns를 설정합니다. */
+        }
+
+        /* 미로 셀 스타일 */
+        .cell {
+            width: 30px;
+            height: 30px;
+            box-sizing: border-box;
+            background-color: #f0f0f0;
+            transition: background-color 0.1s ease;
+        }
+
+        /* 벽 */
+        .wall-top { border-top: 3px solid #333; }
+        .wall-right { border-right: 3px solid #333; }
+        .wall-bottom { border-bottom: 3px solid #333; }
+        .wall-left { border-left: 3px solid #333; }
+        
+        /* 플레이어 */
+        .player {
+            background-color: #dc3545; /* 빨간색 */
+            position: relative;
+            z-index: 10;
+        }
+        
+        /* 시작 및 도착 지점 */
+        .start { background-color: #28a745; /* 초록색 시작 */ }
+        .end { background-color: #007bff; /* 파란색 도착 */ }
+
+        /* 메시지 및 컨트롤 */
+        #message {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        #message button {
+            margin-left: 10px;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<!-- === HTML === -->
+<div id="maze-container">
+    <div id="maze">
+        <!-- 미로는 JS로 채워집니다 -->
+    </div>
+</div>
+
+<div id="message">
+    <span id="game-status">← ↑ ↓ → 키를 눌러 이동하세요.</span>
+    <button onclick="window.location.reload()">새 미로 생성</button>
+</div>
+
+<!-- === JavaScript === -->
+<script>
+    const MAZE_SIZE = 15; // 미로 크기 (15x15)
+    const mazeElement = document.getElementById('maze');
+    const statusElement = document.getElementById('game-status');
+
+    let maze = []; // 미로 구조를 저장하는 2D 배열
+    let player = { x: 0, y: 0 }; // 플레이어 위치
+    let isGameRunning = true;
+    let cells = []; // DOM 요소를 저장하는 배열
+
+    // 미로의 Cell 상태 정의 (벽 정보)
+    const Cell = {
+        WALL: 0,
+        PATH: 1
+    };
+
+    // 1. 미로 초기화 및 CSS Grid 설정
+    function initializeMaze() {
+        mazeElement.style.gridTemplateColumns = `repeat(${MAZE_SIZE}, 1fr)`;
+
+        // 2D 배열 초기화: 모든 칸을 벽으로 설정
+        for (let y = 0; y < MAZE_SIZE; y++) {
+            maze[y] = [];
+            cells[y] = [];
+            for (let x = 0; x < MAZE_SIZE; x++) {
+                maze[y][x] = {
+                    visited: false,
+                    walls: { top: true, right: true, bottom: true, left: true },
+                    isStart: (x === 0 && y === 0),
+                    isEnd: (x === MAZE_SIZE - 1 && y === MAZE_SIZE - 1)
+                };
+
+                // DOM 요소 생성
+                const cellDiv = document.createElement('div');
+                cellDiv.classList.add('cell');
+                mazeElement.appendChild(cellDiv);
+                cells[y][x] = cellDiv;
+            }
+        }
+    }
+
+    // 2. 미로 생성 알고리즘 (깊이 우선 탐색 기반 백트래킹)
+    function generateMaze(x, y) {
+        maze[y][x].visited = true;
+
+        const neighbors = [
+            { dx: 0, dy: -1, wall: 'top', opposite: 'bottom' }, // Up
+            { dx: 1, dy: 0, wall: 'right', opposite: 'left' },  // Right
+            { dx: 0, dy: 1, wall: 'bottom', opposite: 'top' },  // Down
+            { dx: -1, dy: 0, wall: 'left', opposite: 'right' }  // Left
+        ].sort(() => Math.random() - 0.5); // 이웃들을 무작위로 섞음
+
+        for (const neighbor of neighbors) {
+            const nx = x + neighbor.dx;
+            const ny = y + neighbor.dy;
+
+            // 미로 경계 체크
+            if (nx >= 0 && nx < MAZE_SIZE && ny >= 0 && ny < MAZE_SIZE) {
+                if (!maze[ny][nx].visited) {
+                    // 현재 셀과 이웃 셀의 벽을 허뭄
+                    maze[y][x].walls[neighbor.wall] = false;
+                    maze[ny][nx].walls[neighbor.opposite] = false;
+
+                    generateMaze(nx, ny); // 재귀 호출
+                }
+            }
+        }
+    }
+
+    // 3. 미로 DOM 렌더링
+    function drawMaze() {
+        for (let y = 0; y < MAZE_SIZE; y++) {
+            for (let x = 0; x < MAZE_SIZE; x++) {
+                const cell = maze[y][x];
+                const cellDiv = cells[y][x];
+                
+                // 벽 클래스 업데이트
+                cellDiv.className = 'cell'; // 초기화
+                if (cell.walls.top) cellDiv.classList.add('wall-top');
+                if (cell.walls.right) cellDiv.classList.add('wall-right');
+                if (cell.walls.bottom) cellDiv.classList.add('wall-bottom');
+                if (cell.walls.left) cellDiv.classList.add('wall-left');
+
+                // 시작/도착 지점 표시
+                if (cell.isStart) cellDiv.classList.add('start');
+                if (cell.isEnd) cellDiv.classList.add('end');
+            }
+        }
+        updatePlayerPosition();
+    }
+
+    // 4. 플레이어 위치 업데이트 및 렌더링
+    function updatePlayerPosition() {
+        // 기존 위치 클래스 제거
+        cells.forEach(row => row.forEach(cell => cell.classList.remove('player')));
+        
+        // 새 위치에 클래스 추가
+        cells[player.y][player.x].classList.add('player');
+        
+        // 시작/도착 지점 클래스 복원 (플레이어 클래스가 덮어쓰므로)
+        if (maze[0][0].isStart) cells[0][0].classList.add('start');
+        if (maze[MAZE_SIZE - 1][MAZE_SIZE - 1].isEnd) cells[MAZE_SIZE - 1][MAZE_SIZE - 1].classList.add('end');
+    }
+
+
+    // 5. 키보드 이동 처리
+    function movePlayer(dx, dy, wallCheck) {
+        if (!isGameRunning) return;
+
+        const nextX = player.x + dx;
+        const nextY = player.y + dy;
+        
+        const currentCell = maze[player.y][player.x];
+
+        // 해당 방향으로 벽이 없는지 확인
+        if (!currentCell.walls[wallCheck]) {
+            // 미로 경계를 벗어나지 않는지 최종 확인
+            if (nextX >= 0 && nextX < MAZE_SIZE && nextY >= 0 && nextY < MAZE_SIZE) {
+                player.x = nextX;
+                player.y = nextY;
+                updatePlayerPosition();
+
+                // 도착 체크
+                if (maze[player.y][player.x].isEnd) {
+                    gameWin();
+                }
+            }
+        } else {
+             // 벽에 부딪혔을 때 시각적 피드백
+             cells[player.y][player.x].style.backgroundColor = '#ff6666';
+             setTimeout(() => {
+                cells[player.y][player.x].style.backgroundColor = '#f0f0f0';
+                if (maze[player.y][player.x].isStart) cells[player.y][player.x].style.backgroundColor = '#28a745';
+                if (maze[player.y][player.x].isEnd) cells[player.y][player.x].style.backgroundColor = '#007bff';
+             }, 100);
+        }
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (!isGameRunning) return;
+        
+        switch (e.key) {
+            case 'ArrowUp':
+                movePlayer(0, -1, 'top');
+                break;
+            case 'ArrowDown':
+                movePlayer(0, 1, 'bottom');
+                break;
+            case 'ArrowLeft':
+                movePlayer(-1, 0, 'left');
+                break;
+            case 'ArrowRight':
+                movePlayer(1, 0, 'right');
+                break;
+        }
+    });
+
+    // 6. 게임 승리
+    function gameWin() {
+        isGameRunning = false;
+        statusElement.textContent = `🎉 축하합니다! 미로를 탈출했습니다!`;
+        cells[player.y][player.x].style.backgroundColor = '#00ff00';
+    }
+
+    // 7. 게임 시작
+    function startGame() {
+        initializeMaze();
+        generateMaze(player.x, player.y); // (0, 0)에서 미로 생성 시작
+        drawMaze();
+        statusElement.textContent = '← ↑ ↓ → 키를 눌러 이동하세요.';
+    }
+
+    startGame();
+
+</script>
+</body>
+</html>
