@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>2D 운전 피하기 게임</title>
+
+    <!-- === CSS === -->
+    <style>
+        /* 기본 설정 */
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            user-select: none; /* 드래그 방지 */
+        }
+
+        /* 게임 영역 */
+        #game-container {
+            position: relative;
+            width: 400px; /* 도로 폭 */
+            height: 600px; /* 도로 길이 */
+            background-color: #333; /* 아스팔트 색상 */
+            border: 5px solid #000;
+            overflow: hidden;
+        }
+
+        /* 도로 차선 */
+        .lane-line {
+            position: absolute;
+            width: 10px;
+            height: 50px;
+            background-color: #fff;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: lineMove 1s linear infinite;
+        }
+        @keyframes lineMove {
+            0% { top: -50px; }
+            100% { top: 600px; }
+        }
+
+        /* 플레이어 차량 */
+        #player {
+            position: absolute;
+            width: 50px;
+            height: 80px;
+            background-color: #007bff; /* 파란색 플레이어 차 */
+            bottom: 20px;
+            left: 175px; /* 중앙 시작 */
+            border-radius: 5px;
+            z-index: 10;
+            transition: left 0.1s ease; /* 부드러운 이동 */
+        }
+
+        /* 적 차량 (장애물) */
+        .enemy {
+            position: absolute;
+            width: 50px;
+            height: 80px;
+            background-color: red;
+            top: -80px; /* 화면 밖에서 시작 */
+            border-radius: 5px;
+            z-index: 5;
+        }
+
+        /* 점수 및 메시지 */
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        #message {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 100;
+        }
+
+        #message h2 { margin: 0; font-size: 40px; }
+        #message p { font-size: 20px; }
+        #message button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- === HTML === -->
+<div id="game-container">
+    <div id="player"></div>
+    <div id="score">Score: 0</div>
+
+    <!-- 차선(JS에서 동적으로 생성할 예정이지만, 하나는 CSS 애니메이션 예시로 넣습니다.) -->
+    <div class="lane-line" style="top: 0px;"></div>
+    <div class="lane-line" style="top: 150px;"></div>
+    <div class="lane-line" style="top: 300px;"></div>
+    <div class="lane-line" style="top: 450px;"></div>
+
+
+    <div id="message">
+        <h2 id="msg-text">Game Over</h2>
+        <p id="final-score"></p>
+        <button id="restart-btn">다시 시작</button>
+    </div>
+</div>
+
+<p style="margin-top: 20px;"> ← / → 키를 사용하여 차량을 움직이세요.</p>
+
+<!-- === JavaScript === -->
+<script>
+    const container = document.getElementById('game-container');
+    const player = document.getElementById('player');
+    const scoreEl = document.getElementById('score');
+    const msgBox = document.getElementById('message');
+    const finalScoreEl = document.getElementById('final-score');
+    const restartBtn = document.getElementById('restart-btn');
+
+    const GAME_WIDTH = 400;
+    const GAME_HEIGHT = 600;
+    const PLAYER_WIDTH = 50;
+    const PLAYER_HEIGHT = 80;
+    const ENEMY_WIDTH = 50;
+    const ENEMY_HEIGHT = 80;
+
+    let playerX = 175; // 플레이어 시작 X 위치 (중앙)
+    let score = 0;
+    let gameLoopId;
+    let enemySpawnInterval;
+    let isGameOver = false;
+
+    const enemies = [];
+    const lanePositions = [75, 175, 275]; // 세 개의 차선 중앙 X 위치
+
+    let baseSpeed = 5; // 기본 차량 속도
+    let spawnRate = 1500; // 적 차량 생성 주기 (ms)
+
+    // 1. 플레이어 이동 처리 -------------------------------------
+
+    function movePlayer(direction) {
+        if (isGameOver) return;
+        
+        let newX = playerX + (direction * 25); // 25픽셀씩 이동
+
+        // 경계를 벗어나지 않도록 제한
+        if (newX >= 0 && newX <= GAME_WIDTH - PLAYER_WIDTH) {
+            playerX = newX;
+            player.style.left = playerX + 'px';
+        }
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            movePlayer(-1);
+        } else if (e.key === 'ArrowRight') {
+            movePlayer(1);
+        }
+    });
+
+    // 2. 적 차량 생성 ------------------------------------------
+
+    function createEnemy() {
+        if (isGameOver) return;
+
+        const enemy = document.createElement('div');
+        enemy.classList.add('enemy');
+        
+        // 무작위 차선 선택
+        const laneIndex = Math.floor(Math.random() * lanePositions.length);
+        const startX = lanePositions[laneIndex];
+
+        // 난이도에 따른 적 차량 색상 랜덤 변경
+        const colors = ['#f00', '#00f', '#fa0', '#a0f'];
+        enemy.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        enemy.style.left = startX + 'px';
+        container.appendChild(enemy);
+        enemies.push(enemy);
+    }
+
+    function startSpawning() {
+        // 게임 난이도에 따라 생성 주기를 조정할 수 있습니다.
+        enemySpawnInterval = setInterval(createEnemy, spawnRate);
+    }
+    
+    // 3. 게임 루프 (프레임 업데이트) -------------------------------
+
+    function updateEnemies() {
+        // 난이도 상승 (점수가 1000점 오를 때마다 속도/생성 주기 증가)
+        const speedMultiplier = 1 + Math.floor(score / 1000) * 0.2;
+        const currentSpeed = baseSpeed * speedMultiplier;
+
+        for (let i = 0; i < enemies.length; i++) {
+            const enemy = enemies[i];
+            
+            // 차량 아래로 이동
+            let currentTop = parseFloat(enemy.style.top) || -80;
+            currentTop += currentSpeed;
+            enemy.style.top = currentTop + 'px';
+
+            // 충돌 감지
+            if (checkCollision(player, enemy)) {
+                gameOver();
+                return;
+            }
+
+            // 화면 밖으로 나가면 제거하고 점수 증가
+            if (currentTop > GAME_HEIGHT) {
+                container.removeChild(enemy);
+                enemies.splice(i, 1);
+                i--; // 배열에서 요소를 제거했으므로 인덱스 조정
+                score += 10;
+                scoreEl.textContent = 'Score: ' + score;
+            }
+        }
+        
+        if (!isGameOver) {
+            gameLoopId = requestAnimationFrame(updateEnemies);
+        }
+    }
+
+    // 4. 충돌 감지 ---------------------------------------------
+    function checkCollision(objA, objB) {
+        const rectA = objA.getBoundingClientRect();
+        const rectB = objB.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+        
+        // 컨테이너 기준 상대 좌표 계산
+        const A = {
+            left: rectA.left - containerRect.left,
+            top: rectA.top - containerRect.top,
+            right: rectA.right - containerRect.left,
+            bottom: rectA.bottom - containerRect.top
+        };
+        const B = {
+            left: rectB.left - containerRect.left,
+            top: rectB.top - containerRect.top,
+            right: rectB.right - containerRect.left,
+            bottom: rectB.bottom - containerRect.top
+        };
+
+        return (
+            A.left < B.right &&
+            A.right > B.left &&
+            A.top < B.bottom &&
+            A.bottom > B.top
+        );
+    }
+    
+    // 5. 게임 상태 관리 ------------------------------------------
+
+    function gameOver() {
+        isGameOver = true;
+        cancelAnimationFrame(gameLoopId);
+        clearInterval(enemySpawnInterval);
+        
+        finalScoreEl.textContent = `최종 점수: ${score}`;
+        msgBox.style.display = 'flex';
+    }
+
+    function resetGame() {
+        // 모든 적 차량 제거
+        enemies.forEach(enemy => container.removeChild(enemy));
+        enemies.length = 0; 
+        
+        score = 0;
+        isGameOver = false;
+        scoreEl.textContent = 'Score: 0';
+        msgBox.style.display = 'none';
+
+        // 플레이어 초기 위치
+        playerX = 175;
+        player.style.left = playerX + 'px';
+
+        startGame();
+    }
+
+    function startGame() {
+        startSpawning();
+        updateEnemies();
+    }
+
+    restartBtn.addEventListener('click', resetGame);
+
+    // 초기 게임 시작
+    startGame();
+
+</script>
+</body>
+</html>
