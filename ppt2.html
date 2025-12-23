@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반도체 공학 진로 보고서 - AI 융합</title>
+    <style>
+        :root {
+            --primary: #0a192f;
+            --secondary: #172a45;
+            --accent: #64ffda;
+            --text-main: #e6f1ff;
+            --text-sub: #8892b0;
+            --card-bg: #112240;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--primary);
+            color: var(--text-main);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* 헤더: 서론 내용 반영 */
+        header {
+            border-bottom: 1px solid var(--secondary);
+            padding-bottom: 40px;
+            margin-bottom: 50px;
+        }
+
+        .title-tag { color: var(--accent); font-weight: bold; font-size: 0.9rem; letter-spacing: 2px; }
+        h1 { font-size: 2.5rem; margin: 10px 0; }
+        .intro-text { color: var(--text-sub); font-size: 1.1rem; max-width: 800px; }
+
+        /* 본론 그리드 레이아웃 */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+
+        .section-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            transition: 0.3s;
+        }
+
+        .section-card:hover { border-color: var(--accent); transform: translateY(-5px); }
+
+        /* 원문 목차별 배치 */
+        .full { grid-column: span 12; }
+        .half { grid-column: span 6; }
+
+        h2 { color: var(--accent); font-size: 1.3rem; margin-bottom: 20px; display: flex; align-items: center; }
+        h2::before { content: "▹ "; margin-right: 10px; }
+
+        .highlight-box {
+            background: rgba(100, 255, 218, 0.1);
+            border-left: 3px solid var(--accent);
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+
+        /* 진로 섹션 강조 */
+        .career-section {
+            background: linear-gradient(135deg, #112240 0%, #1d3359 100%);
+            border: 1px solid var(--accent);
+        }
+
+        footer {
+            margin-top: 80px;
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 0.8rem;
+            padding-bottom: 40px;
+        }
+
+        ul { padding-left: 20px; color: var(--text-sub); }
+        li { margin-bottom: 10px; }
+        b { color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <header>
+        <span class="title-tag">TECHNICAL REPORT</span>
+        <h1>반도체 산업에서의 AI 활용 방안과 향후 전망</h1>
+        <p class="intro-text">
+            4차 산업혁명의 핵심인 AI와 반도체의 상호작용을 분석하고, 
+            초미세 공정 한계 극복을 위한 융합 엔지니어로서의 진로를 탐색합니다.
+        </p>
+    </header>
+
+    <div class="content-grid">
+        <div class="section-card half">
+            <h2>1. 공정 복잡성과 AI 도입 필요성</h2>
+            <p>수백 개의 세부 공정(포토, 식각, 증착 등)에서 발생하는 <b>방대한 변수 간 상관관계</b>는 인간의 분석 한계를 초과했습니다.</p>
+            <div class="highlight-box">핵심: 대규모 데이터 학습을 통한 미세 패턴 인식 및 안정성 확보</div>
+        </div>
+
+        <div class="section-card half">
+            <h2>2. 공정 최적화 및 수율 향상</h2>
+            <p>실시간 센서 데이터를 기반으로 공정 조건을 자동 조정하여 <b>공정 편차를 최소화</b>합니다.</p>
+            <ul>
+                <li>과거 데이터 기반 최적 조건 도출</li>
+                <li>인간의 경험·직관을 넘어서는 정밀 제어</li>
+            </ul>
+        </div>
+
+        <div class="section-card half">
+            <h2>3. AI 기반 품질 관리 (Vision)</h2>
+            <p>기존 검사 방식의 시간 소모와 인적 오류를 극복하기 위한 <b>AI 이미지 분석 기술</b>을 도입합니다.</p>
+            <div class="highlight-box">효과: 검사 속도 비약적 향상 및 일관된 품질 기준 확립</div>
+            
+        </div>
+
+        <div class="section-card half">
+            <h2>4. EDA 설계 및 예지 보전</h2>
+            <p><b>EDA(설계 자동화):</b> 최적 회로 구조 생성 및 오류 조기 발견</p>
+            <p><b>예지 보전:</b> 진동·소음 분석을 통한 장비 고장 사전 예측</p>
+            <ul>
+                <li>설계 기간 단축 및 PPA 최적화</li>
+                <li>생산 중단 방지로 막대한 경제적 손실 방어</li>
+            </ul>
+        </div>
+
+        <div class="section-card full">
+            <h2>5. AI 활용의 한계와 과제</h2>
+            <p>AI의 성능은 <b>데이터 품질</b>에 의존하며, 의사결정 과정의 투명성 확보가 필요합니다.</p>
+            <p>→ 향후 AI 판단을 검증하는 <b>인간 중심의 관리 체계</b> 및 윤리적 기준 정립이 병행되어야 합니다.</p>
+        </div>
+
+        <div class="section-card full career-section">
+            <h2>6. 진로 및 반도체 공학자의 미래</h2>
+            <p>반도체 공학 지식과 AI 데이터 분석 역량을 결합한 <b>'융합형 엔지니어'</b>로의 성장이 필수적입니다.</p>
+            <div class="highlight-box">
+                본인은 단순 장비 기술자를 넘어, AI를 통해 공정 문제를 해결하는 전문가가 되고자 합니다.
+            </div>
+        </div>
+
+        <div class="section-card full">
+            <h2>Ⅲ. 결론</h2>
+            <p>초미세 공정 시대, AI는 선택이 아닌 <b>필수 경쟁력</b>입니다. 본 보고서를 통해 반도체 산업의 AI 융합 트렌드를 파악하고, 미래 진로 선택을 위한 통찰을 정리하였습니다.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>본 보고서는 사용자가 제공한 원문 데이터를 바탕으로 구조화되었습니다.</p>
+        <p>© 2024 Semiconductor Engineering Report Project</p>
+    </footer>
+</div>
+
+</body>
+</html>
