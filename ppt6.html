@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반도체 산업 AI 활용 보고서</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #1e293b;
+            --accent: #38bdf8;
+            --text: #f1f5f9;
+            --sub-text: #94a3b8;
+        }
+
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .slide {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--panel);
+            border-radius: 20px;
+            padding: 40px 60px;
+            margin-bottom: 50px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .page-info { color: var(--accent); font-weight: bold; margin-bottom: 10px; display: block; }
+        h1 { font-size: 2rem; border-bottom: 2px solid var(--accent); padding-bottom: 15px; margin-bottom: 30px; }
+        h2 { color: var(--accent); font-size: 1.3rem; margin-top: 25px; }
+
+        .content { line-height: 1.8; text-align: justify; }
+        .bullet-list { list-style: none; padding: 0; }
+        .bullet-list li { margin-bottom: 15px; padding-left: 20px; position: relative; }
+        .bullet-list li::before { content: "•"; position: absolute; left: 0; color: var(--accent); }
+        
+        .box { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; margin-top: 15px; }
+        b { color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <div class="slide">
+        <span class="page-info">SLIDE 01. 도입 배경</span>
+        <h1>반도체 산업의 특성과 AI 도입 배경</h1>
+        <div class="content">
+            <p>반도체 산업은 AI의 하드웨어 기반인 동시에, AI를 통해 스스로 고도화되는 산업입니다.</p>
+            <ul class="bullet-list">
+                <li><b>초미세 공정의 한계:</b> 나노미터 단위 정밀 제어가 요구되는 수십 단계 공정에서 변수가 기하급수적으로 증가하고 있습니다.</li>
+                <li><b>경험 중심 관리의 탈피:</b> 미세 오차가 수율에 직결되는 환경에서 인간의 직관만으로는 모든 변수를 통제하기 어려워졌습니다.</li>
+                <li><b>AI의 강점:</b> 대규모 데이터 속에서 패턴과 상관관계를 찾아내 공정 복잡성 문제를 해결하는 핵심 기술로 주목받습니다.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="slide">
+        <span class="page-info">SLIDE 02. 활용 방안 (공정 및 품질)</span>
+        <h1>AI 기반 공정 제어 및 품질 관리</h1>
+        <div class="content">
+            <h2>1. 공정 제어 및 수율 향상</h2>
+            <p>방대한 센서 데이터를 실시간 분석하여 최적의 공정 조건을 도출합니다. 이상 징후 조기 감지 및 불량 예측을 통해 생산 안정성을 높이고 기업 경쟁력을 강화합니다.</p>
+            
+            <h2>2. 결함 검사 및 품질 관리</h2>
+            <p>AI 이미지 분석을 통해 육안으로 확인 어려운 미세 결함을 정확히 탐지합니다. 인간의 판단 오류를 방지하고 대량 생산 체제에서도 일정한 품질 기준을 유지합니다.</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <span class="page-info">SLIDE 03. 활용 방안 (설계 및 보전)</span>
+        <h1>반도체 설계 및 설비 예지 보전</h1>
+        <div class="content">
+            <h2>3. 반도체 설계(EDA) 혁신</h2>
+            <p>성능, 전력, 발열, 면적 등을 동시 고려해야 하는 설계 분야에서 AI가 설계 데이터를 분석하여 최적의 조합을 제시합니다. 이는 저전력·고성능 칩 개발 기간 단축으로 이어집니다.</p>
+            
+            <h2>4. 설비 유지보수 및 예지 보전</h2>
+            <p>장비의 온도, 진동, 소음 데이터를 분석하여 고장 가능성을 사전에 예측합니다. 사후 대응에서 <b>예방 중심 관리</b>로 전환하여 대규모 생산 손실 리스크를 차단합니다.</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <span class="page-info">SLIDE 04. 전망 및 진로</span>
+        <h1>향후 전망 및 진로와의 연관성</h1>
+        <div class="content">
+            <div class="box">
+                <b>향후 전망:</b> 3nm 이하 공정 진입에 따라 AI는 이제 선택이 아닌 <b>필수 기술</b>입니다. 고성능 AI 반도체 수요 증가와 함께 전문 인력의 중요성도 커질 것입니다.
+            </div>
+            <h2>진로와의 연관성 및 결론</h2>
+            <p>반도체 공정 지식이 AI 데이터 분석과 결합될 때 효과가 극대화됨을 인식했습니다. 기초 과목(물리, 화학, 수학 등) 학습의 중요성을 깨달았으며, 향후 공학과 AI를 함께 학습하는 <b>융합적 인재</b>를 목표로 삼고자 합니다.</p>
+            <p><b>결론:</b> AI와 반도체의 결합은 일시적 트렌드가 아닌 산업 구조를 바꾸는 장기적 흐름이며, 미래 공학자에게 AI 이해는 필수 역량입니다.</p>
+        </div>
+    </div>
+
+</body>
+</html>
