@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Semiconductor Neon Presentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Noto+Sans+KR:wght@300;400;700&display=swap');
+
+        :root {
+            --bg-color: #020617;
+            --neon-cyan: #00f3ff;
+            --neon-pink: #ff00ff;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --text-color: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 60px 20px;
+        }
+
+        /* 네온 빛 효과를 위한 애니메이션 배경 */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.1), transparent 70%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .slide {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border-radius: 25px;
+            padding: 50px 70px;
+            margin-bottom: 100px;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.1), inset 0 0 20px rgba(0, 243, 255, 0.05);
+            position: relative;
+        }
+
+        /* 슬라이드 좌측 하단 네온 포인트 */
+        .slide::after {
+            content: "";
+            position: absolute;
+            bottom: -2px; left: 10%; width: 80%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), var(--neon-pink), transparent);
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .slide-tag {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-cyan);
+            font-size: 0.8rem;
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px var(--neon-cyan);
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.2rem;
+            margin: 0 0 40px 0;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+        }
+
+        h2 {
+            font-size: 1.4rem;
+            color: var(--neon-pink);
+            margin-top: 30px;
+            text-shadow: 0 0 8px var(--neon-pink);
+            border-left: 3px solid var(--neon-pink);
+            padding-left: 15px;
+        }
+
+        p { line-height: 1.8; text-align: justify; color: #cbd5e1; }
+
+        .content-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 0, 255, 0.2);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        b { color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
+
+        .footer-text {
+            margin-top: 40px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.3);
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slide">
+        <span class="slide-tag">PHASE 01: ORIGIN</span>
+        <h1>반도체 산업과 AI의 <span>공생 관계</span></h1>
+        <div class="content">
+            <p>인공지능은 반도체를 통해 구현되며, 반도체는 AI를 통해 고도화됩니다. <b>초미세화·고집적화</b>가 진행되는 현대 공정에서 발생하는 기하급수적 데이터를 통제하기 위해 AI 도입은 필연적인 선택이 되었습니다.</p>
+            <div class="content-box">
+                <p>• <b>인간 중심 관리의 한계:</b> 나노 단위의 정밀 제어 영역에서 직관적 관리의 한계 노출</p>
+                <p>• <b>데이터 기반 혁신:</b> 방대한 변수 간 상관관계를 AI가 학습하여 공정 복잡성 해결</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide">
+        <span class="slide-tag">PHASE 02: EVOLUTION</span>
+        <h1>지능형 생산 및 <span>품질 관리</span></h1>
+        <div class="content">
+            <h2>공정 제어 및 수율 향상</h2>
+            <p>실시간 센서 데이터를 분석하여 최적의 조건을 도출하고, <b>이상 징후를 사전에 예측</b>합니다. 이는 불량 발생을 차단하여 수율 극대화와 기업 경쟁력 확보로 이어집니다.</p>
+            
+            
+
+            <h2>결함 검사 및 품질 신뢰성</h2>
+            <p>AI 이미지 분석은 인간의 눈으로 판별 불가능한 <b>미세 결함을 탐지</b>합니다. 판단 오류를 줄이고 대량 생산 환경에서도 고른 품질을 보장합니다.</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <span class="slide-tag">PHASE 03: OPTIMIZATION</span>
+        <h1>반도체 설계 및 <span>설비 지능화</span></h1>
+        <div class="content">
+            <h2>EDA 설계 자동화</h2>
+            <p>성능, 전력, 발열을 동시 고려한 최적의 칩 구조를 AI가 설계합니다. 복잡한 <b>설계 시나리오의 자동 최적화</b>로 개발 기간을 획기적으로 단축합니다.</p>
+
+            
+
+            <h2>설비 예지 보전 기술</h2>
+            <p>장비의 미세 진동과 소음을 분석하여 고장을 미리 예측합니다. 사후 수리 방식에서 벗어나 <b>사전 예방적 관리</b>로 대규모 생산 손실을 방지합니다.</p>
+        </div>
+    </div>
+
+    <div class="slide">
+        <span class="slide-tag">PHASE 04: FUTURE PATH</span>
+        <h1>향후 전망과 <span>나의 진로</span></h1>
+        <div class="content">
+            <p>3nm 이하 초미세 공정 시대, AI는 이제 생존을 위한 <b>필수 인프라</b>입니다. 반도체 산업의 성장은 곧 고성능 AI 전문 인력의 수요 폭증으로 이어질 것입니다.</p>
+            <div class="content-box" style="border-color: var(--neon-cyan);">
+                <p><b>미래의 나:</b> 물리, 화학적 기초 공정 지식과 AI 데이터 분석 역량을 결합한 <b>융합형 엔지니어</b>를 꿈꿉니다. 단순한 도구 활용을 넘어 문제 해결의 주체가 되는 전문가로 성장하겠습니다.</p>
+            </div>
+            <h2 style="text-align: center; border: none; font-family: 'Orbitron'; margin-top: 50px;">- CONCLUSION: TECH FUSION -</h2>
+        </div>
+    </div>
+
+    <div class="footer-text">SYSTEM READY // AI-SEMICONDUCTOR SYNERGY REPORT // 2025</div>
+
+</body>
+</html>
