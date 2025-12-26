@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Semiconductor & AI Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&family=Noto+Sans+KR:wght@300;400;700&display=swap');
+
+        :root {
+            --bg-deep: #020617;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --neon-mint: #2dd4bf;
+            --neon-blue: #38bdf8;
+            --text-pure: #f8fafc;
+            --text-dim: #94a3b8;
+            --border-line: rgba(45, 212, 191, 0.2);
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(45, 212, 191, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 85%, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
+            color: var(--text-pure);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .slide {
+            width: 100%;
+            max-width: 1150px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border-line);
+            border-radius: 32px;
+            padding: 50px 70px;
+            margin-bottom: 70px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: linear-gradient(90deg, var(--neon-mint), var(--neon-blue));
+        }
+
+        .slide-tag {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-mint);
+            font-size: 0.85rem;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            margin: 0 0 35px 0;
+            background: linear-gradient(to right, #fff, var(--neon-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1.5px;
+        }
+
+        h2 {
+            color: var(--neon-mint);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--neon-mint);
+            padding-left: 15px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 25px;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover { transform: translateY(-5px); border-color: var(--neon-mint); }
+
+        p { color: var(--text-dim); line-height: 1.8; margin: 0; text-align: justify; font-size: 0.95rem; }
+        b { color: var(--text-pure); font-weight: 700; }
+        .highlight { color: var(--neon-blue); }
+
+        .tag-box {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 8px;
+            background: rgba(45, 212, 191, 0.1);
+            color: var(--neon-mint);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .page-num {
+            position: absolute;
+            bottom: 30px; right: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            opacity: 0.5;
+        }
+
+        ul { padding-left: 20px; list-style-type: square; color: var(--text-dim); margin-top: 10px; }
+        li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+
+    <div class="slide">
+        <span class="slide-tag">01. PREFACE</span>
+        <h1>반도체 산업의 AI 융합 방안 및 전망</h1>
+        <div class="content-grid">
+            <div class="card">
+                <span class="tag-box">탐구 주제</span>
+                <p><b>반도체 공학 진로와의 연관성</b>을 중심으로 AI가 실제 산업 현장에서 활용되는 구체적 방안과 향후 엔지니어의 비전을 고찰함.</p>
+            </div>
+            <div class="card">
+                <span class="tag-box">선정 동기 (진로 비전)</span>
+                <p>AI는 제조업의 의사결정 체계를 <b>데이터 기반</b>으로 전환하고 있습니다. 반도체는 AI를 가능케 하는 <span class="highlight">기반 산업</span>인 동시에, AI를 통해 설계/제조를 고도화하는 <span class="highlight">상호보완적 관계</span>임에 주목했습니다.</p>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 20px; width: 100%; box-sizing: border-box;">
+            <h2>왜 이 주제를 선정했는가?</h2>
+            <p>미래 진로로 반도체 공학을 희망하며, <b>초미세 공정의 복잡성</b>이 기존 엔지니어의 경험과 직관만으로는 해결하기 힘든 한계에 도달했음을 깨달았습니다. 공정 제어, 결함 검사, 설계 자동화(EDA) 등 전 영역에서 AI 역량이 <span class="highlight">미래 엔지니어의 필수 덕목</span>임을 확인하고자 했습니다.</p>
+        </div>
+        <div class="page-num">PAGE 01 / 04</div>
+    </div>
+
+    <div class="slide">
+        <span class="slide-tag">02. MANUFACTURING</span>
+        <h1>지능형 제조 공정 및 품질 제어</h1>
+        <div class="card" style="margin-bottom: 25px; width: 100%; box-sizing: border-box;">
+            <h2>1) 산업의 특성과 AI 도입 배경</h2>
+            <p>반도체 공정은 나노미터 단위의 정밀 제어가 요구되는 <b>고난도 산업</b>입니다. 수많은 공정 변수와 미세 조건 변화가 수율에 직결되며, 고가 장비의 고장은 대규모 손실로 이어집니다. <span class="highlight">인간의 판단 한계를 극복</span>하기 위해 대규모 데이터 패턴 분석에 강한 AI가 도입되었습니다.</p>
+        </div>
+        <div class="content-grid">
+            <div class="card">
+                <h2>2) 공정 제어 및 수율 향상</h2>
+                <p>방대한 센서 데이터를 <b>실시간 분석</b>하여 최적의 공정 조건을 도출합니다. AI는 수많은 변수를 동시에 고려하여 <b>이상 징후 조기 감지</b> 및 불량 발생 예측을 수행하며 전체 생산 안정성을 극대화합니다.</p>
+            </div>
+            <div class="card">
+                <h2>3) 결함 검사 및 품질 관리</h2>
+                <p>공정 미세화로 결함 크기가 육안 식별 범위를 벗어났습니다. <b>AI 이미지 분석</b>을 통해 미세 결함을 자동 탐지하여 <span class="highlight">인적 오류를 제거</span>하고 대량 생산 체제에서 일정한 품질을 보장합니다.</p>
+            </div>
+        </div>
+        <div class="page-num">PAGE 02 / 04</div>
+    </div>
+
+    <div class="slide">
+        <span class="slide-tag">03. ARCHITECTURE</span>
+        <h1>설계 자동화(EDA) 및 예지 보전</h1>
+        <div class="card" style="margin-bottom: 25px; width: 100%; box-sizing: border-box;">
+            <h2>4) 반도체 설계(EDA) 혁신</h2>
+            <p>설계 단계는 제조 전 칩의 성능을 결정짓는 핵심 과정입니다. <b>EDA(설계 자동화)</b> 기술에 AI를 접목하여 성능, 전력 소비, 발열 문제를 동시에 해결하는 <b>최적의 회로 구조</b>를 도출합니다. 회로 자동 배치 및 배선 최적화를 통해 개발 기간을 단축하고 비용을 획기적으로 절감합니다.</p>
+        </div>
+        <div class="card" style="width: 100%; box-sizing: border-box;">
+            <h2>5) 설비 유지보수 및 예지 보전</h2>
+            <p>고가의 장비 정지는 라인 중단과 직결됩니다. AI는 장비의 온도, 진동, 소음 데이터를 분석하여 <b>고장 가능성을 사전에 예측</b>합니다. <span class="highlight">예방 중심의 유지보수</span>를 실현하여 공장의 안정성과 신뢰성을 높이는 파수꾼 역할을 수행합니다.</p>
+            <ul>
+                <li>불필요한 점검 비용 감소 및 가동률 극대화</li>
+                <li>데이터 기반 실시간 장비 헬스 체크 시스템</li>
+            </ul>
+        </div>
+        <div class="page-num">PAGE 03 / 04</div>
+    </div>
+
+    <div class="slide">
+        <span class="slide-tag">04. VISION & CONCLUSION</span>
+        <h1>향후 전망 및 탐구 활동 소감</h1>
+        <div class="content-grid">
+            <div class="card">
+                <h2>6) 향후 전망 및 인재상</h2>
+                <p>3nm 이하 초미세 공정 진입으로 AI는 이제 <b>필수 인프라</b>입니다. 미래 반도체 공학자는 공정 지식뿐만 아니라 <span class="highlight">데이터 분석 역량</span>을 갖춘 <b>융합형 인재</b>여야 함을 시사합니다.</p>
+            </div>
+            <div class="card">
+                <h2>탐구 활동 소감</h2>
+                <p>AI가 소프트웨어 기술을 넘어 설계와 제조 전반의 성능을 좌우한다는 사실을 깨달았습니다. 특히 <b>AI 기반 EDA 기술</b>이 칩의 성능을 근본적으로 결정한다는 점이 매우 인상 깊었습니다.</p>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 20px; background: linear-gradient(135deg, rgba(45, 212, 191, 0.1), rgba(56, 189, 248, 0.1)); border: 1px solid var(--neon-mint); width: 100%; box-sizing: border-box;">
+            <h2>미래 진로에 대한 다짐</h2>
+            <p>단순한 이론 학습을 넘어 <b>AI와 데이터 분석 역량</b>을 함께 기르는 것이 중요하다는 점을 절감했습니다. 나의 진로가 미래 산업의 변화와 직결되어 있음을 인식하고, 반도체 공학 분야에 대한 학습 동기를 더욱 확고히 하는 계기가 되었습니다.</p>
+        </div>
+        <div class="page-num">PAGE 04 / 04</div>
+    </div>
+
+</body>
+</html>
