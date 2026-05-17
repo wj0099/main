@@ -1,0 +1,615 @@
+```html
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문정희 겨울일기 수행평가</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Pretendard', sans-serif;
+}
+
+body{
+overflow:hidden;
+background:#0f172a;
+color:white;
+}
+
+/* 눈 효과 */
+.snow{
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+pointer-events:none;
+z-index:0;
+}
+
+.snow span{
+position:absolute;
+top:-10px;
+width:6px;
+height:6px;
+background:white;
+border-radius:50%;
+animation:snow linear infinite;
+opacity:0.8;
+}
+
+@keyframes snow{
+to{
+transform:translateY(110vh);
+}
+}
+
+.slide{
+width:100vw;
+height:100vh;
+padding:60px;
+display:none;
+flex-direction:column;
+justify-content:center;
+position:relative;
+z-index:2;
+background:
+linear-gradient(rgba(8,15,30,0.88), rgba(8,15,30,0.9)),
+url('https://images.unsplash.com/photo-1483664852095-d6cc6870702d?q=80&w=2070&auto=format&fit=crop');
+background-size:cover;
+background-position:center;
+}
+
+.slide.active{
+display:flex;
+animation:fade 0.8s;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+h1{
+font-size:64px;
+margin-bottom:25px;
+}
+
+h2{
+font-size:42px;
+margin-bottom:28px;
+color:#f8fafc;
+}
+
+h3{
+font-size:28px;
+margin-top:20px;
+margin-bottom:10px;
+color:#bfdbfe;
+}
+
+p{
+font-size:20px;
+line-height:1.9;
+margin-bottom:10px;
+color:#e2e8f0;
+}
+
+li{
+font-size:20px;
+line-height:1.8;
+margin-bottom:10px;
+}
+
+ul{
+margin-left:25px;
+}
+
+.quote{
+margin-top:20px;
+padding:22px;
+background:rgba(255,255,255,0.08);
+border-left:4px solid white;
+line-height:2;
+font-size:20px;
+white-space:pre-line;
+}
+
+.table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+.table td,.table th{
+border:1px solid rgba(255,255,255,0.2);
+padding:14px;
+font-size:18px;
+}
+
+.small{
+font-size:16px;
+margin-top:15px;
+color:#cbd5e1;
+}
+
+.nav{
+position:fixed;
+bottom:20px;
+right:30px;
+display:flex;
+gap:10px;
+z-index:10;
+}
+
+button{
+padding:12px 22px;
+border:none;
+border-radius:12px;
+background:white;
+color:#0f172a;
+font-size:16px;
+cursor:pointer;
+}
+
+.center{
+text-align:center;
+}
+
+.two-column{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:35px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="snow" id="snow"></div>
+
+<!-- 표지 -->
+<section class="slide active">
+<div class="center">
+<h1>문정희 「겨울일기」</h1>
+<p style="font-size:30px;">작품 분석 및 재구성 발표</p>
+<p class="small">겨울이라는 계절 속에 담긴 인간의 고독과 삶의 견딤</p>
+</div>
+</section>
+
+<!-- 목차 -->
+<section class="slide">
+<h2>목차</h2>
+<ul>
+<li>1. 작품의 내용 및 형식 요소 분석</li>
+<li>2. 상호텍스트적 맥락에서 감상</li>
+<li>3. 작품 일부 내용 및 정서 재구성</li>
+<li>4. 작품 속 가치와 교훈</li>
+</ul>
+
+<div class="quote">
+문정희의 「겨울일기」는 짧은 시이지만,
+인간의 외로움과 삶의 태도를 깊이 담아낸 작품이다.
+
+이번 발표에서는 작품의 정서와 시적 상황,
+표현상 특징과 사회·문화적 맥락을 중심으로 감상해 보겠다.
+</div>
+</section>
+
+<!-- 작품분석 -->
+<section class="slide">
+<h2>1. 작품의 내용 및 형식 요소 분석</h2>
+
+<div class="quote">
+나는 이 겨울을 누워 지냈다.
+사랑하는 사람을 잃어버려
+염주처럼 윤나게 굴리던
+독백도 끝이 나고
+바람도 불지 않아
+이 겨울 누워서 편히 지냈다.
+
+저 들에선 벌거벗은 나무들이
+추위 울어도
+서로 서로 기대어 숲이 되어도
+나는 무관해서
+
+문 한 번 열지 않고
+반추 동물처럼 죽음만 꺼내 씹었다.
+나는 누워서 편히 지냈다.
+사랑하는 사람을 잃어버린
+이 겨울.
+</div>
+
+<h3>① 화자의 정서 분석</h3>
+
+<p>
+이 시의 화자는 사랑하는 사람을 잃은 뒤 깊은 상실감과 고독 속에 머물러 있다.
+하지만 일반적인 이별 시처럼 감정을 직접적으로 울부짖거나 격하게 드러내지는 않는다.
+오히려 매우 담담하고 체념적인 어조로 자신의 상태를 말하고 있다.
+
+이러한 태도는 오히려 더 깊은 슬픔과 공허함을 느끼게 만든다.
+</p>
+
+<p>
+특히 시의 첫 구절인 ‘나는 이 겨울을 누워 지냈다’에서부터 화자의 무기력한 상태가 드러난다.
+‘누워 지냈다’라는 표현은 단순히 몸이 누워 있었다는 의미가 아니라,
+삶의 의욕과 활력을 잃은 상태를 상징적으로 보여 준다.
+
+즉 화자는 사랑하는 사람을 잃은 뒤 삶의 의미와 활력을 잃고,
+세상과 단절된 채 겨울이라는 시간을 보내고 있는 것이다.
+</p>
+
+<p>
+또한 ‘염주처럼 윤나게 굴리던 독백도 끝이 나고’라는 표현은 매우 인상적이다.
+염주는 계속 손으로 굴리며 반복하는 물건인데,
+화자는 이전까지 자신의 슬픔과 감정을 반복적으로 되새기며 독백해 왔음을 알 수 있다.
+
+하지만 이제는 그 독백조차 끝났다고 말한다.
+이는 더 이상 자신의 슬픔을 표현할 힘조차 남아 있지 않은 상태이며,
+극도의 공허함과 체념 상태에 도달했음을 의미한다.
+</p>
+
+<p>
+‘바람도 불지 않아’라는 표현 역시 단순한 자연 묘사가 아니다.
+보통 바람은 움직임과 변화의 이미지를 가지는데,
+이 시에서는 바람조차 불지 않는 정지된 세계가 나타난다.
+
+이를 통해 화자의 내면 역시 완전히 멈춰 버린 상태임을 알 수 있다.
+시 전체에 흐르는 정적 분위기와 침잠된 정서는 이러한 표현을 통해 더욱 강조된다.
+</p>
+
+<h3>② 시적 상황 분석</h3>
+
+<p>
+화자는 사랑하는 사람을 잃은 뒤 외부 세계와 단절된 채 겨울을 보내고 있다.
+시 속에는 역동적인 움직임보다 멈춰 있는 듯한 정적 분위기가 강하게 나타난다.
+
+화자는 적극적으로 현실을 극복하려 하기보다,
+차가운 겨울 속에서 자신의 슬픔과 상실감을 조용히 견디고 있다.
+</p>
+
+<div class="quote">
+저 들에선 벌거벗은 나무들이
+추위 울어도
+서로 서로 기대어 숲이 되어도
+나는 무관해서
+</div>
+
+<h3>③ 핵심 구절 분석</h3>
+
+<p>
+‘벌거벗은 나무들’은 잎이 떨어져 앙상하게 남은 존재로,
+화자의 상실감과 외로운 내면 상태를 상징한다.
+</p>
+
+<p>
+또한 나무들이 ‘서로 서로 기대어 숲이 되어도’라는 표현에서는,
+힘든 상황 속에서도 서로 의지하는 존재들의 모습을 볼 수 있다.
+하지만 화자는 그러한 관계와 세계로부터 스스로 단절되어 있으며,
+‘나는 무관해서’라는 표현을 통해 외부 세계에 대한 무감각과 단절감을 드러낸다.
+</p>
+
+<div class="quote">
+문 한 번 열지 않고
+반추 동물처럼 죽음만 꺼내 씹었다.
+</div>
+
+<h3>④ 표현상 특징 분석</h3>
+
+<p>
+이 부분에서는 ‘반추 동물처럼’이라는 직유법이 사용되었다.
+반추동물은 먹이를 반복해서 씹는 동물인데,
+이를 통해 화자가 죽음과 상실의 감정을 계속 되새기고 있음을 표현하고 있다.
+</p>
+
+<p>
+또한 ‘문 한 번 열지 않고’라는 표현에서는 세상과 단절된 폐쇄적인 상태를 확인할 수 있다.
+화자는 외부와 소통하지 않은 채 자신의 고통 속에 머물러 있다.
+</p>
+
+<h3>⑤ 핵심 시어 : ‘겨울’의 의미</h3>
+
+<ul>
+<li>사랑하는 사람을 잃은 뒤의 상실감</li>
+<li>삶의 시련과 고통</li>
+<li>인간 내면의 고독과 단절</li>
+<li>삶의 의욕이 사라진 침체된 상태</li>
+<li>하지만 언젠가 지나가게 될 시간이라는 의미</li>
+</ul>
+
+<p>
+즉 이 시에서 ‘겨울’은 단순한 계절이 아니라,
+인간이 살아가며 겪는 상실과 고독의 시간을 상징한다고 볼 수 있다.
+</p>
+
+<h3>⑥ 표현상 특징 정리</h3>
+
+<ul>
+<li>겨울과 나무 같은 자연 이미지를 활용하여 차갑고 고요한 분위기를 형성함</li>
+<li>상징법을 사용하여 인간 내면의 상태를 드러냄</li>
+<li>절제된 어조를 통해 담담한 슬픔과 무기력함을 강조함</li>
+<li>직유법을 사용하여 죽음을 반복적으로 떠올리는 상태를 표현함</li>
+<li>전체적으로 정적인 분위기를 형성하여 화자의 고독을 강조함</li>
+</ul>
+
+<h3>⑦ 작가 맥락</h3>
+
+<p>
+문정희의 시는 인간 존재와 삶의 상처,
+그리고 고독 속에서도 살아가야 하는 인간의 모습을 자주 다룬다.
+
+특히 감정을 과장하기보다 절제된 언어 속에서 깊은 슬픔과 내면의 상처를 표현하는 특징이 있다.
+</p>
+
+<p>
+「겨울일기」 역시 사랑하는 사람을 잃은 뒤의 상실감과 인간 내면의 공허함을 차분하게 보여 주면서,
+동시에 삶 속 고독의 시간을 견디는 인간의 모습을 담아낸 작품이라고 생각한다.
+</p>
+</section>
+
+<!-- 사회문화 -->
+<section class="slide">
+<h2>2. 상호텍스트적 맥락에서 감상</h2>
+
+<p class="small">
+※ 같은 주제를 가진 다른 작품과 비교 감상
+</p>
+
+<h3>① 문정희 「겨울일기」와 윤동주 「서시」 비교</h3>
+
+<h3>① 문정희 시인의 시대적 배경</h3>
+
+<p>
+문정희 시인은 1970년대 이후 활발하게 활동한 시인으로,
+산업화와 도시화가 빠르게 진행되던 한국 사회 속에서 인간의 외로움과 상실감,
+그리고 삶의 상처를 섬세하게 표현하였다.
+</p>
+
+<p>
+당시 한국 사회는 경제적으로는 빠르게 성장하고 있었지만,
+그 과정에서 인간적인 관계가 점점 메말라 가고 있었다.
+많은 사람들이 경쟁 중심 사회 속에서 살아가게 되었고,
+개인의 감정보다 사회적 성공과 생존이 더 중요하게 여겨지는 분위기가 형성되었다.
+</p>
+
+<p>
+또한 도시화가 진행되면서 사람들은 이전보다 더 많은 사람들과 함께 살아가게 되었지만,
+오히려 인간관계의 단절과 고립감을 느끼는 경우도 많아졌다.
+문정희 시인은 이러한 시대 분위기 속에서 인간 내면의 외로움과 상처를 시 속에 담아냈다.
+</p>
+
+<h3>② 작품과 시대적 배경의 연결</h3>
+
+<p>
+「겨울일기」 역시 단순히 개인의 슬픔만을 표현한 작품이 아니다.
+이 작품 속 화자는 사랑하는 사람을 잃은 뒤 세상과 단절된 채 살아가고 있는데,
+이는 당시 사회 속에서 점점 고립되어 가는 현대인의 모습과도 연결해서 볼 수 있다.
+</p>
+
+<p>
+특히 ‘문 한 번 열지 않고’라는 표현에서는 외부 세계와의 단절이 드러나며,
+이는 경쟁 사회 속에서 자신의 감정을 숨긴 채 살아가는 현대인의 모습과 연결된다.
+</p>
+
+<p>
+또한 화자는 적극적으로 현실을 극복하려 하기보다,
+고통과 상실을 조용히 견디고 있다.
+이러한 모습은 빠르게 변화하는 사회 속에서 지쳐 가는 인간의 모습을 떠올리게 한다.
+</p>
+
+<div class="quote">
+“겨울은 단순한 계절이 아니라,
+인간이 살아가며 겪는 외로움과 상실의 시간을 상징한다.”
+</div>
+
+<h3>③ 현대 사회와 연결되는 부분</h3>
+
+<p>
+오늘날 현대 사회에서도 많은 사람들이 외로움과 고립감을 느끼며 살아가고 있다.
+SNS와 온라인 중심 인간관계는 겉으로는 서로 연결되어 있는 것처럼 보이지만,
+실제로는 깊은 공허함과 단절감을 느끼게 만들기도 한다.
+</p>
+
+<p>
+특히 청소년들 역시 학업 경쟁과 인간관계 속에서 자신의 감정을 충분히 표현하지 못하고,
+혼자 고민과 불안을 견디는 경우가 많다.
+</p>
+
+<p>
+따라서 「겨울일기」는 단순히 과거의 작품이 아니라,
+오늘날을 살아가는 현대인들의 삶과 감정에도 충분히 연결될 수 있는 작품이라고 생각한다.
+</p>
+
+<h3>④ 작품이 전달하는 의미</h3>
+
+<ul>
+<li>인간은 누구나 살아가며 상실과 외로움을 경험한다.</li>
+<li>고독은 특별한 사람만의 감정이 아니라 누구에게나 찾아올 수 있다.</li>
+<li>삶의 힘든 시간 역시 결국 지나가게 된다.</li>
+<li>시련 속에서도 삶을 견디는 태도는 인간에게 매우 중요하다.</li>
+<li>이 작품은 고통을 단순히 부정적으로만 바라보지 않고,
+삶을 돌아보게 만드는 시간으로 표현하고 있다.</li>
+</ul>
+</section>
+
+<!-- 상호텍스트 -->
+<section class="slide">
+<h2>3. 작품 일부 내용 및 정서 재구성</h2>
+
+<p class="small">
+※ 원작의 고독하고 침잠된 정서를 현대적으로 재구성
+</p>
+
+<h3>윤동주 「서시」와 비교</h3>
+
+<div class="quote">
+“죽는 날까지 하늘을 우러러
+한 점 부끄럼이 없기를 …”
+</div>
+
+<table class="table">
+<tr>
+<th>겨울일기</th>
+<th>서시</th>
+</tr>
+
+<tr>
+<td>삶의 고독과 견딤</td>
+<td>부끄럽지 않은 삶에 대한 다짐</td>
+</tr>
+
+<tr>
+<td>내면 성찰 중심</td>
+<td>자기반성과 순수한 삶 추구</td>
+</tr>
+
+<tr>
+<td>담담하고 절제된 분위기</td>
+<td>조용하지만 강한 의지</td>
+</tr>
+</table>
+
+<p>
+윤동주의 「서시」는 일제강점기라는 시대적 배경 속에서 자신의 양심과 순수함을 지키며 살아가고자 하는 의지를 담은 작품이다.
+
+두 작품 모두 화려한 표현보다는 절제된 어조를 사용해 인간 내면을 성찰한다는 공통점이 있다.
+</p>
+
+<p class="small">
+※ 「서시」 형식 : 자유시 / 서정시 / 성찰적 태도 중심
+</p>
+</section>
+
+<!-- 재구성 -->
+<section class="slide">
+<h2>4. 작품 속 가치와 교훈</h2>
+
+<p class="small">
+※ 작품이 전달하는 삶의 태도와 교훈 정리
+</p>
+
+<div class="quote">
+새벽 두 시,
+
+읽지 않은 메시지 위로
+창문에 겨울이 내려앉는다.
+
+사람들 속을 지나왔지만
+마음은 오래 빈 의자 같았다.
+
+차가운 편의점 불빛 아래에서
+나는 천천히 하루를 접는다.
+
+아무 말도 없는 거리 끝에서
+희미한 숨처럼 눈발이 흔들린다.
+
+그래도 끝내 사라지지 않는 것은
+내일을 기다리는 마음이었다.
+</div>
+
+<ul>
+<li>현대 사회 속 청소년과 현대인의 외로움을 표현하였다.</li>
+<li>‘읽지 않은 메시지’, ‘편의점 불빛’ 같은 현대적 이미지를 사용하였다.</li>
+<li>원작의 고독하고 담담한 분위기를 유지하려고 하였다.</li>
+<li>마지막에는 희미하지만 남아 있는 희망을 표현하였다.</li>
+</ul>
+</section>
+
+<!-- 가치 -->
+<section class="slide">
+<h2>감사합니다</h2>
+
+<div class="center">
+<p style="font-size:28px; line-height:2;">
+문정희의 「겨울일기」는 단순한 슬픔의 시가 아니라,
+인간이 삶 속에서 겪게 되는 상실과 고독,
+그리고 그 시간을 견디는 태도를 담아낸 작품이라고 생각한다.
+
+경청해 주셔서 감사합니다.
+</p>
+</div>
+
+<!-- 기존 마지막 슬라이드 제거용 -->
+
+<ul>
+<li>인간이 살아가며 느끼는 외로움과 시련을 섬세하게 표현한다.</li>
+<li>단순한 절망이 아니라 삶을 견디는 태도를 보여 준다.</li>
+<li>현대인의 고립감과 연결해서 생각할 수 있다.</li>
+<li>힘든 시간을 견디는 과정 자체도 의미 있다는 점을 느꼈다.</li>
+<li>짧은 시이지만 인간의 삶과 감정을 깊이 떠올리게 만든다.</li>
+</ul>
+
+<div class="quote">
+“사람은 누구나 겨울 같은 시간을 겪지만,
+결국 그 시간을 지나 다시 앞으로 나아간다.”
+</div>
+</section>
+
+<!-- 감사합니다 -->
+<section class="slide">
+<div class="center">
+<h1>감사합니다</h1>
+<p style="font-size:28px;">문정희 「겨울일기」 발표 끝</p>
+<p class="small">❄️</p>
+</div>
+</section>
+
+<div class="nav">
+<button onclick="prevSlide()">← 이전</button>
+<button onclick="nextSlide()">다음 →</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+
+function showSlide(index){
+slides.forEach(slide=>slide.classList.remove('active'));
+slides[index].classList.add('active');
+}
+
+function nextSlide(){
+if(current < slides.length-1){
+current++;
+showSlide(current);
+}
+}
+
+function prevSlide(){
+if(current > 0){
+current--;
+showSlide(current);
+}
+}
+
+document.addEventListener('keydown', e=>{
+if(e.key==='ArrowRight') nextSlide();
+if(e.key==='ArrowLeft') prevSlide();
+});
+
+const snow = document.getElementById('snow');
+
+for(let i=0;i<150;i++){
+const span = document.createElement('span');
+span.style.left = Math.random()*100 + 'vw';
+span.style.animationDuration = (5 + Math.random()*8) + 's';
+span.style.opacity = Math.random();
+snow.appendChild(span);
+}
+</script>
+
+</body>
+</html>
+```
