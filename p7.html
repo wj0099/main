@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문정희 겨울일기 수행평가</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Pretendard', sans-serif;
+}
+
+body{
+overflow:auto;
+background:#f4f7fb;
+color:#1e293b;
+}
+
+/* 눈 효과 */
+
+.snow{
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+pointer-events:none;
+z-index:0;
+}
+
+.snow span{
+position:absolute;
+top:-10px;
+width:6px;
+height:6px;
+background:white;
+border-radius:50%;
+opacity:0.8;
+animation:snow linear infinite;
+}
+
+@keyframes snow{
+to{
+transform:translateY(110vh);
+}
+}
+
+/* 슬라이드 */
+
+.slide{
+width:100vw;
+min-height:100vh;
+padding:60px;
+display:none;
+flex-direction:column;
+justify-content:flex-start;
+position:relative;
+z-index:2;
+
+background:
+linear-gradient(
+rgba(255,255,255,0.92),
+rgba(255,255,255,0.94)
+),
+
+url('https://images.unsplash.com/photo-1511131341194-24e2eeeebb09?q=80&w=1974&auto=format&fit=crop');
+
+background-size:cover;
+background-position:center;
+overflow-y:auto;
+}
+
+.slide.active{
+display:flex;
+animation:fade 0.6s;
+}
+
+@keyframes fade{
+from{
+opacity:0;
+transform:translateY(15px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+h1{
+font-size:62px;
+margin-bottom:20px;
+color:#0f172a;
+}
+
+h2{
+font-size:40px;
+margin-bottom:30px;
+padding-bottom:12px;
+border-bottom:3px solid #cbd5e1;
+color:#1e293b;
+}
+
+h3{
+font-size:27px;
+margin-top:24px;
+margin-bottom:12px;
+color:#334155;
+}
+
+p{
+font-size:21px;
+line-height:2;
+margin-bottom:18px;
+}
+
+li{
+font-size:21px;
+line-height:2;
+margin-bottom:8px;
+}
+
+ul{
+margin-left:30px;
+}
+
+.quote{
+background:rgba(255,255,255,0.78);
+padding:28px;
+border-radius:18px;
+line-height:2.1;
+font-size:21px;
+white-space:pre-line;
+box-shadow:0 4px 14px rgba(0,0,0,0.08);
+margin-top:20px;
+margin-bottom:24px;
+}
+
+.center{
+justify-content:center;
+align-items:center;
+text-align:center;
+}
+
+/* 분석 레이아웃 */
+
+.analysis-wrap{
+display:flex;
+gap:30px;
+align-items:flex-start;
+margin-top:15px;
+}
+
+.poem-box{
+width:48%;
+background:rgba(255,255,255,0.85);
+padding:28px;
+border-radius:18px;
+line-height:2.3;
+font-size:22px;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.note-box{
+width:52%;
+background:rgba(255,255,255,0.82);
+padding:28px;
+border-radius:18px;
+line-height:2;
+font-size:20px;
+box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.highlight-red{
+background:linear-gradient(
+transparent 60%,
+rgba(255,120,120,0.45) 60%
+);
+}
+
+.highlight-blue{
+background:linear-gradient(
+transparent 60%,
+rgba(120,170,255,0.45) 60%
+);
+}
+
+.memo{
+color:#dc2626;
+font-weight:bold;
+font-size:18px;
+margin-top:6px;
+margin-bottom:12px;
+line-height:1.8;
+}
+
+.arrow{
+font-size:18px;
+color:#2563eb;
+margin-top:6px;
+margin-bottom:10px;
+line-height:1.8;
+}
+
+.table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+background:rgba(255,255,255,0.78);
+}
+
+.table td,
+.table th{
+border:1px solid #cbd5e1;
+padding:15px;
+font-size:20px;
+line-height:1.8;
+}
+
+.nav{
+position:fixed;
+right:25px;
+bottom:25px;
+display:flex;
+gap:10px;
+z-index:20;
+}
+
+button{
+padding:14px 22px;
+border:none;
+border-radius:12px;
+background:#dbe4f0;
+font-size:17px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#cbd5e1;
+}
+
+.small{
+font-size:17px;
+color:#64748b;
+line-height:1.8;
+margin-top:6px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="snow" id="snow"></div>
+
+<!-- 표지 -->
+
+<section class="slide active center">
+
+<h1>문정희 「겨울일기」</h1>
+
+<p style="font-size:30px;">
+문학 작품 분석 및 재구성 발표
+</p>
+
+<p class="small">
+겨울이라는 계절 속에 담긴 인간의 상실과 고독
+</p>
+
+</section>
+
+<!-- 목차 -->
+
+<section class="slide">
+
+<h2>목차</h2>
+
+<ul>
+<li>1. 작품의 내용 및 형식 요소 분석</li>
+<li>2. 상호텍스트적 맥락에서 감상</li>
+<li>3. 작품 일부 내용 및 정서 재구성</li>
+<li>4. 작품 속 가치와 교훈</li>
+</ul>
+
+<div class="quote">
+문정희의 「겨울일기」는 사랑하는 사람을 잃은 뒤의 상실감과
+고독한 내면을 담담한 어조로 표현한 작품이다.
+
+이번 발표에서는 시의 표현상 특징과 화자의 정서를 분석하고,
+윤동주의 「서시」와 비교하며 작품을 감상해 보겠다.
+</div>
+
+</section>
+
+<!-- 작품 분석 -->
+
+<section class="slide">
+
+<h2>1. 작품의 내용 및 형식 요소 분석</h2>
+
+<div class="analysis-wrap">
+
+<div class="poem-box">
+
+<span class="highlight-red">
+나는 이 겨울을 누워 지냈다.
+</span>
+
+<div class="memo">
+→ 삶의 의욕을 잃은 무기력한 상태<br>
+→ ‘겨울’ : 상실과 고독의 시간 상징
+</div>
+
+사랑하는 사람을 잃어버려<br>
+
+<div class="arrow">
+→ 화자의 상실감이 드러남
+</div>
+
+<span class="highlight-blue">
+염주처럼 윤나게 굴리던
+</span><br>
+
+<div class="memo">
+→ 반복적으로 슬픔을 되새김<br>
+→ ‘염주’ : 반복과 집착의 이미지
+</div>
+
+독백도 끝이 나고<br>
+
+<div class="arrow">
+→ 더 이상 감정을 표현할 힘조차 없음
+</div>
+
+바람도 불지 않아<br>
+
+<div class="memo">
+→ 정적 분위기 형성<br>
+→ 화자의 멈춰버린 내면 상태 암시
+</div>
+
+이 겨울 누워서 편히 지냈다.<br><br>
+
+<div class="arrow">
+→ 반복 표현을 통해 무기력함 강조
+</div>
+
+저 들에선 벌거벗은 나무들이<br>
+
+<div class="memo">
+→ ‘벌거벗은 나무’ : 외로움과 상실 상징
+</div>
+
+추위 울어도<br>
+
+<div class="arrow">
+→ 추위를 의인화하여 고통 강조
+</div>
+
+<span class="highlight-blue">
+서로 서로 기대어 숲이 되어도
+</span><br>
+
+<div class="memo">
+→ 서로 의지하며 살아가는 존재들
+</div>
+
+<span class="highlight-red">
+나는 무관해서
+</span><br>
+
+<div class="arrow">
+→ 세상과 단절된 상태<br>
+→ 외부 세계에 대한 무감각
+</div>
+
+문 한 번 열지 않고<br>
+
+<div class="memo">
+→ 외부와의 단절 강조
+</div>
+
+<span class="highlight-blue">
+반추 동물처럼 죽음만 꺼내 씹었다.
+</span><br>
+
+<div class="memo">
+→ 직유법 사용<br>
+→ 죽음과 슬픔을 반복적으로 되새김
+</div>
+
+나는 누워서 편히 지냈다.<br>
+
+<div class="arrow">
+→ 처음과 유사한 표현 반복<br>
+→ 침잠된 분위기 심화
+</div>
+
+사랑하는 사람을 잃어버린<br>
+이 겨울.
+
+<div class="memo">
+→ 마지막에 핵심 시어 ‘겨울’을 다시 제시하여
+상실과 고독의 정서를 강조함
+</div>
+
+</div>
+
+<div class="note-box">
+
+<h3>화자 정서</h3>
+
+<p>
+사랑하는 사람을 잃은 뒤 깊은 상실감과 고독 속에 머물러 있다.
+하지만 감정을 직접적으로 폭발시키지 않고
+담담하고 체념적인 태도로 자신의 상태를 표현한다.
+</p>
+
+<div class="memo">
+※ 무기력함 / 침잠된 분위기 / 고독
+</div>
+
+<h3>시적 상황</h3>
+
+<p>
+화자는 사랑하는 사람을 잃은 뒤
+외부 세계와 단절된 채 겨울을 보내고 있다.
+삶의 의욕을 잃은 상태에서
+고통과 슬픔을 홀로 견디고 있다.
+</p>
+
+<div class="arrow">
+→ 세상과 단절된 내면 상태
+</div>
+
+<h3>핵심 시어 : 겨울</h3>
+
+<p>
+겨울은 단순한 계절이 아니라
+상실과 시련, 인간 내면의 외로움을 상징한다.
+</p>
+
+<div class="memo">
+※ 삶의 고통과 공허함 상징
+</div>
+
+<h3>표현상 특징</h3>
+
+<p>
+직유법, 상징법, 반복법 등을 사용하여
+화자의 고독과 상실감을 효과적으로 드러내고 있다.
+
+또한 자연 이미지를 활용하여
+차갑고 정적인 분위기를 형성하였다.
+</p>
+
+<div class="arrow">
+→ 절제된 어조를 통한 슬픔 강조
+</div>
+
+<h3>사회·문화적 맥락</h3>
+
+<p>
+문정희 시인은 산업화와 도시화가 진행되던 시대 속에서
+현대인의 고독과 인간관계의 단절을 섬세하게 표현하였다.
+
+이 작품 역시 단순한 개인의 슬픔을 넘어
+현대인의 외로움과 고립감을 상징적으로 보여 준다.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- 상호텍스트 -->
+
+<section class="slide">
+
+<h2>2. 상호텍스트적 맥락에서 감상</h2>
+
+<p class="small">
+※ 같은 주제를 가진 다른 작품과 비교 감상
+</p>
+
+<div class="quote">
+“죽는 날까지 하늘을 우러러
+한 점 부끄럼이 없기를”
+- 윤동주 「서시」
+</div>
+
+<table class="table">
+
+<tr>
+<th>겨울일기</th>
+<th>서시</th>
+</tr>
+
+<tr>
+<td>상실과 고독</td>
+<td>자기 성찰과 순수한 삶</td>
+</tr>
+
+<tr>
+<td>정적인 분위기</td>
+<td>차분하지만 강한 의지</td>
+</tr>
+
+<tr>
+<td>삶의 공허함 표현</td>
+<td>부끄럽지 않은 삶 추구</td>
+</tr>
+
+<tr>
+<td>겨울 이미지 활용</td>
+<td>하늘·별 이미지 활용</td>
+</tr>
+
+</table>
+
+<p>
+두 작품 모두 인간 내면을 성찰한다는 공통점이 있다.
+또한 감정을 과장하지 않고 절제된 어조로 표현하여
+독자에게 깊은 여운을 남긴다.
+</p>
+
+</section>
+
+<!-- 재구성 -->
+
+<section class="slide">
+
+<h2>3. 작품 일부 내용 및 정서 재구성</h2>
+
+<div class="quote">
+새벽 두 시,
+
+읽지 않은 메시지 위로
+창문에 겨울이 내려앉는다.
+
+사람들 속을 지나왔지만
+마음은 오래 빈 의자 같았다.
+
+차가운 편의점 불빛 아래에서
+나는 천천히 하루를 접는다.
+
+아무 말도 없는 거리 끝에서
+희미한 숨처럼 눈발이 흔들린다.
+</div>
+
+<h3>재구성 의도</h3>
+
+<p>
+원작의 고독하고 침잠된 분위기를 유지하면서
+현대 사회를 살아가는 청소년의 외로움을 표현하고자 하였다.
+</p>
+
+</section>
+
+<!-- 가치와 교훈 -->
+
+<section class="slide">
+
+<h2>4. 작품 속 가치와 교훈</h2>
+
+<ul>
+<li>인간은 누구나 살아가며 상실과 외로움을 경험한다.</li>
+<li>삶의 힘든 시간 역시 결국 지나가게 된다.</li>
+<li>고독 속에서도 삶을 견디는 태도는 중요하다.</li>
+<li>시련의 시간은 자신을 돌아보게 만든다.</li>
+<li>이 작품은 인간 존재에 대한 깊은 성찰을 담고 있다.</li>
+</ul>
+
+<div class="quote">
+“사람은 누구나 겨울 같은 시간을 겪지만,
+결국 그 시간을 지나 다시 앞으로 나아간다.”
+</div>
+
+</section>
+
+<!-- 감사합니다 -->
+
+<section class="slide center">
+
+<h1>감사합니다</h1>
+
+<p style="font-size:30px; line-height:2;">
+문정희의 「겨울일기」는
+상실과 고독 속에서도 삶을 견디는 인간의 모습을 담아낸 작품이라고 생각한다.
+</p>
+
+</section>
+
+<div class="nav">
+<button onclick="prevSlide()">← 이전</button>
+<button onclick="nextSlide()">다음 →</button>
+</div>
+
+<script>
+
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+
+function showSlide(index){
+
+slides.forEach(slide=>{
+slide.classList.remove('active');
+});
+
+slides[index].classList.add('active');
+
+}
+
+function nextSlide(){
+
+if(current < slides.length - 1){
+current++;
+showSlide(current);
+}
+
+}
+
+function prevSlide(){
+
+if(current > 0){
+current--;
+showSlide(current);
+}
+
+}
+
+document.addEventListener('keydown', e=>{
+
+if(e.key === 'ArrowRight'){
+nextSlide();
+}
+
+if(e.key === 'ArrowLeft'){
+prevSlide();
+}
+
+});
+
+const snow = document.getElementById('snow');
+
+for(let i=0; i<120; i++){
+
+const span = document.createElement('span');
+
+span.style.left = Math.random()*100 + 'vw';
+span.style.animationDuration = (7 + Math.random()*7) + 's';
+span.style.opacity = Math.random();
+
+snow.appendChild(span);
+
+}
+
+</script>
+
+</body>
+</html>
