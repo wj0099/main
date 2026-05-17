@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문정희 겨울일기 발표</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Pretendard', sans-serif;
+}
+
+body{
+    overflow:hidden;
+    background:#0f172a;
+    color:white;
+}
+
+.slide{
+    width:100vw;
+    height:100vh;
+    padding:60px;
+    display:none;
+    flex-direction:column;
+    justify-content:center;
+    background:linear-gradient(
+        135deg,
+        #0f172a,
+        #1e293b,
+        #334155
+    );
+}
+
+.slide.active{
+    display:flex;
+    animation:fade 0.7s;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+h1{
+    font-size:55px;
+    margin-bottom:30px;
+    color:#f8fafc;
+}
+
+h2{
+    font-size:42px;
+    margin-bottom:25px;
+    color:#e2e8f0;
+}
+
+p, li{
+    font-size:24px;
+    line-height:1.8;
+    color:#cbd5e1;
+}
+
+ul{
+    margin-left:30px;
+}
+
+.quote{
+    margin-top:40px;
+    font-size:28px;
+    color:#f1f5f9;
+    line-height:2;
+    white-space:pre-line;
+}
+
+.table{
+    width:80%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+.table td, .table th{
+    border:1px solid rgba(255,255,255,0.2);
+    padding:15px;
+    font-size:22px;
+}
+
+.nav{
+    position:fixed;
+    bottom:30px;
+    right:40px;
+    display:flex;
+    gap:15px;
+}
+
+button{
+    padding:12px 22px;
+    border:none;
+    border-radius:12px;
+    background:#f8fafc;
+    color:#0f172a;
+    font-size:18px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+.small{
+    font-size:20px;
+    color:#94a3b8;
+    margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 1장 표지 -->
+<section class="slide active">
+    <h1>문정희 「겨울일기」</h1>
+
+    <p style="font-size:32px;">
+        작품 분석 및 재구성 발표
+    </p>
+
+    <p class="small">
+        “겨울 속에서 발견한 인간의 고독과 견딤”
+    </p>
+</section>
+
+<!-- 2장 목차 -->
+<section class="slide">
+    <h2>목차</h2>
+
+    <ul>
+        <li>작품 분석</li>
+        <li>상호텍스트적 감상</li>
+        <li>작품 재구성</li>
+        <li>작품의 가치와 느낀 점</li>
+    </ul>
+</section>
+
+<!-- 3장 작품 분석 -->
+<section class="slide">
+    <h2>작품 분석</h2>
+
+    <ul>
+        <li><b>화자의 정서</b> : 고독, 성찰, 견딤</li>
+        <li><b>시적 상황</b> : 겨울 속에서 자신을 돌아봄</li>
+        <li><b>핵심 시어 “겨울”</b> : 시련과 고독의 상징</li>
+        <li><b>표현상 특징</b> : 상징법, 계절 이미지, 절제된 어조</li>
+        <li><b>작가 맥락</b> : 인간 내면과 삶의 상처 탐구</li>
+    </ul>
+</section>
+
+<!-- 4장 상호텍스트 -->
+<section class="slide">
+    <h2>상호텍스트적 감상</h2>
+
+    <p style="margin-bottom:25px;">
+        윤동주 「서시」와의 비교
+    </p>
+
+    <table class="table">
+        <tr>
+            <th>겨울일기</th>
+            <th>서시</th>
+        </tr>
+
+        <tr>
+            <td>고독과 견딤</td>
+            <td>부끄럽지 않은 삶</td>
+        </tr>
+
+        <tr>
+            <td>내면 성찰</td>
+            <td>자기 반성</td>
+        </tr>
+
+        <tr>
+            <td>담담한 분위기</td>
+            <td>조용한 다짐</td>
+        </tr>
+    </table>
+
+    <p class="small">
+        두 작품 모두 인간 내면을 성찰한다는 공통점이 있다.
+    </p>
+</section>
+
+<!-- 5장 재구성 -->
+<section class="slide">
+    <h2>「겨울일기」 재구성</h2>
+
+    <div class="quote">
+새벽 두 시,
+
+읽지 않은 메시지 위로
+창문에 겨울이 내려앉는다.
+
+사람들 속을 지나왔지만
+마음은 오래 빈 의자 같았다.
+
+그래도 나는
+식어가는 하루를 조용히 접으며
+다시 내일을 기다린다.
+    </div>
+</section>
+
+<!-- 6장 느낀점 -->
+<section class="slide">
+    <h2>작품의 가치와 느낀 점</h2>
+
+    <ul>
+        <li>고독 속에서도 삶을 견디는 태도를 보여줌</li>
+        <li>현대인의 외로움과 연결 가능</li>
+        <li>자신의 내면을 돌아보게 함</li>
+    </ul>
+
+    <div class="quote">
+“사람은 누구나 겨울 같은 시간을 겪지만,
+결국 그 시간을 견디며 앞으로 나아간다.”
+    </div>
+</section>
+
+<div class="nav">
+    <button onclick="prevSlide()">← 이전</button>
+    <button onclick="nextSlide()">다음 →</button>
+</div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+let current = 0;
+
+function showSlide(index){
+    slides.forEach(slide=>{
+        slide.classList.remove('active');
+    });
+
+    slides[index].classList.add('active');
+}
+
+function nextSlide(){
+    if(current < slides.length - 1){
+        current++;
+        showSlide(current);
+    }
+}
+
+function prevSlide(){
+    if(current > 0){
+        current--;
+        showSlide(current);
+    }
+}
+
+document.addEventListener('keydown', e=>{
+    if(e.key === 'ArrowRight'){
+        nextSlide();
+    }
+
+    if(e.key === 'ArrowLeft'){
+        prevSlide();
+    }
+});
+</script>
+
+</body>
+</html>
