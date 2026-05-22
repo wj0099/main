@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>지구 중심 행성 겉보기 운동 시뮬레이션</title>
+
+<style>
+
+body{
+    margin:0;
+    overflow:hidden;
+    background:#050816;
+    color:white;
+    font-family:Pretendard,sans-serif;
+}
+
+canvas{
+    display:block;
+}
+
+#ui{
+
+    position:absolute;
+    top:10px;
+    left:10px;
+
+    z-index:10;
+
+    background:rgba(0,0,0,0.55);
+
+    padding:16px;
+
+    border-radius:16px;
+
+    width:280px;
+}
+
+h2{
+
+    margin-top:0;
+    color:#ffd54f;
+}
+
+label{
+
+    display:block;
+    margin-top:14px;
+}
+
+input[type=range]{
+
+    width:100%;
+}
+
+button{
+
+    margin-top:12px;
+
+    padding:8px 14px;
+
+    border:none;
+
+    border-radius:8px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.info{
+
+    margin-top:14px;
+
+    line-height:1.6;
+
+    color:#d0d0d0;
+
+    font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="ui">
+
+<h2>🌍 지구 중심 시뮬레이션</h2>
+
+<label>
+시간 속도
+<input type="range" id="speed" min="1" max="300" value="40">
+</label>
+
+<button id="toggle">⏸ 일시정지</button>
+
+<div class="info">
+
+왼쪽 → 실제 태양계 운동<br>
+오른쪽 → 지구에서 본 하늘<br><br>
+
+⭐ 별은 고정<br>
+🔴 화성은 이동<br>
+↩ 역행 운동 발생
+
+</div>
+
+</div>
+
+<canvas id="canvas"></canvas>
+
+<script>
+
+//////////////////////////////////////////////////////
+// 캔버스
+//////////////////////////////////////////////////////
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+resize();
+
+window.addEventListener("resize",resize);
+
+function resize(){
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+//////////////////////////////////////////////////////
+// 설정
+//////////////////////////////////////////////////////
+
+const AU = 150;
+
+let time = 0;
+
+let paused = false;
+
+//////////////////////////////////////////////////////
+// 행성 데이터
+//////////////////////////////////////////////////////
+
+const earth = {
+
+    radius:1,
+    period:365,
+    color:"#42a5f5",
+    size:10
+};
+
+const mars = {
+
+    radius:1.52,
+    period:687,
+    color:"#ef5350",
+    size:9
+};
+
+//////////////////////////////////////////////////////
+// 별 배경
+//////////////////////////////////////////////////////
+
+const stars = [];
+
+for(let i=0;i<400;i++){
+
+    stars.push({
+
+        x:Math.random(),
+        y:Math.random(),
+        size:Math.random()*2
+    });
+}
+
+//////////////////////////////////////////////////////
+// 겉보기 이동 경로
+//////////////////////////////////////////////////////
+
+const apparentTrail = [];
+
+//////////////////////////////////////////////////////
+// 버튼
+//////////////////////////////////////////////////////
+
+document.getElementById("toggle")
+.addEventListener("click",()=>{
+
+    paused = !paused;
+
+    document.getElementById("toggle").innerText =
+        paused ? "▶ 재생" : "⏸ 일시정지";
+});
+
+//////////////////////////////////////////////////////
+// 위치 계산
+//////////////////////////////////////////////////////
+
+function getPosition(planet){
+
+    const angle =
+        (2*Math.PI*time)/planet.period;
+
+    return{
+
+        x:planet.radius * Math.cos(angle),
+        y:planet.radius * Math.sin(angle)
+    };
+}
+
+//////////////////////////////////////////////////////
+// 메인 루프
+//////////////////////////////////////////////////////
+
+function animate(){
+
+    requestAnimationFrame(animate);
+
+    ctx.fillStyle = "#050816";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    drawBackgroundStars();
+
+    if(!paused){
+
+        const speed =
+            Number(document.getElementById("speed").value);
+
+        time += speed * 0.02;
+    }
+
+    const earthPos = getPosition(earth);
+    const marsPos = getPosition(mars);
+
+    drawOuterView(earthPos,marsPos);
+
+    drawInnerView(earthPos,marsPos);
+
+    drawDate();
+}
+
+//////////////////////////////////////////////////////
+// 배경 별
+//////////////////////////////////////////////////////
+
+function drawBackgroundStars(){
+
+    for(const s of stars){
+
+        ctx.fillStyle = "white";
+
+        ctx.beginPath();
+
+        ctx.arc(
+
+            s.x * canvas.width,
+            s.y * canvas.height,
+            s.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+    }
+}
+
+//////////////////////////////////////////////////////
+// 외부 시점
+//////////////////////////////////////////////////////
+
+function drawOuterView(earthPos,marsPos){
+
+    const cx = canvas.width * 0.28;
+    const cy = canvas.height * 0.55;
+
+    //////////////////////////////////////////////////
+    // 제목
+    //////////////////////////////////////////////////
+
+    ctx.fillStyle = "white";
+    ctx.font = "26px sans-serif";
+
+    ctx.fillText(
+        "🌌 실제 태양계 운동",
+        cx - 120,
+        50
+    );
+
+    //////////////////////////////////////////////////
+    // 태양
+    //////////////////////////////////////////////////
+
+    ctx.fillStyle = "#ffeb3b";
+
+    ctx.beginPath();
+    ctx.arc(cx,cy,18,0,Math.PI*2);
+    ctx.fill();
+
+    //////////////////////////////////////////////////
+    // 지구 궤도
+    //////////////////////////////////////////////////
+
+    ctx.strokeStyle =
+        "rgba(66,165,245,0.5)";
+
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    ctx.arc(
+        cx,
+        cy,
+        earth.radius * AU,
+        0,
+        Math.PI*2
+    );
+
+    ctx.stroke();
+
+    //////////////////////////////////////////////////
+    // 화성 궤도
+    //////////////////////////////////////////////////
+
+    ctx.strokeStyle =
+        "rgba(239,83,80,0.4)";
+
+    ctx.beginPath();
+
+    ctx.arc(
+        cx,
+        cy,
+        mars.radius * AU,
+        0,
+        Math.PI*2
+    );
+
+    ctx.stroke();
+
+    //////////////////////////////////////////////////
+    // 지구 위치
+    //////////////////////////////////////////////////
+
+    const ex =
+        cx + earthPos.x * AU;
+
+    const ey =
+        cy + earthPos.y * AU;
+
+    ctx.fillStyle = earth.color;
+
+    ctx.beginPath();
+    ctx.arc(ex,ey,earth.size,0,Math.PI*2);
+    ctx.fill();
+
+    //////////////////////////////////////////////////
+    // 화성 위치
+    //////////////////////////////////////////////////
+
+    const mx =
+        cx + marsPos.x * AU;
+
+    const my =
+        cy + marsPos.y * AU;
+
+    ctx.fillStyle = mars.color;
+
+    ctx.beginPath();
+    ctx.arc(mx,my,mars.size,0,Math.PI*2);
+    ctx.fill();
+
+    //////////////////////////////////////////////////
+    // 관측선
+    //////////////////////////////////////////////////
+
+    ctx.strokeStyle = "white";
+
+    ctx.lineWidth = 1.5;
+
+    ctx.beginPath();
+
+    ctx.moveTo(ex,ey);
+    ctx.lineTo(mx,my);
+
+    ctx.stroke();
+
+    //////////////////////////////////////////////////
+    // 라벨
+    //////////////////////////////////////////////////
+
+    ctx.fillStyle = "white";
+    ctx.font = "16px sans-serif";
+
+    ctx.fillText("지구", ex + 12, ey);
+    ctx.fillText("화성", mx + 12, my);
+    ctx.fillText("태양", cx + 22, cy);
+}
+
+//////////////////////////////////////////////////////
+// 내부 시점
+//////////////////////////////////////////////////////
+
+function drawInnerView(earthPos,marsPos){
+
+    const panelX = canvas.width * 0.58;
+    const panelY = canvas.height * 0.2;
+
+    const panelW = canvas.width * 0.32;
+    const panelH = canvas.height * 0.58;
+
+    //////////////////////////////////////////////////
+    // 패널
+    //////////////////////////////////////////////////
+
+    ctx.fillStyle = "#0d1326";
+
+    ctx.fillRect(
+        panelX,
+        panelY,
+        panelW,
+        panelH
+    );
+
+    //////////////////////////////////////////////////
+    // 제목
+    //////////////////////////////////////////////////
+
+    ctx.fillStyle = "white";
+    ctx.font = "26px sans-serif";
+
+    ctx.fillText(
+        "🔭 지구에서 본 하늘",
+        panelX + 20,
+        panelY - 20
+    );
+
+    //////////////////////////////////////////////////
+    // 황도선
+    //////////////////////////////////////////////////
+
+    ctx.strokeStyle = "#555";
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+        panelX + 20,
+        panelY + panelH/2
+    );
+
+    ctx.lineTo(
+        panelX + panelW - 20,
+        panelY + panelH/2
+    );
+
+    ctx.stroke();
+
+    //////////////////////////////////////////////////
+    // 배경별
+    //////////////////////////////////////////////////
+
+    for(let i=0;i<80;i++){
+
+        const sx =
+            panelX + 25 + i*7;
+
+        const sy =
+            panelY +
+            panelH/2 +
+            Math.sin(i*0.4)*25;
+
+        ctx.fillStyle = "white";
+
+        ctx.beginPath();
+        ctx.arc(sx,sy,2,0,Math.PI*2);
+        ctx.fill();
+    }
+
+    //////////////////////////////////////////////////
+    // 지구 기준 벡터
+    //////////////////////////////////////////////////
+
+    const vx = marsPos.x - earthPos.x;
+    const vy = marsPos.y - earthPos.y;
+
+    //////////////////////////////////////////////////
+    // 방향 각도
+    //////////////////////////////////////////////////
+
+    const angle =
+        Math.atan2(vy,vx);
+
+    //////////////////////////////////////////////////
+    // 겉보기 위치
+    //////////////////////////////////////////////////
+
+    const apparentX =
+
+        panelX +
+        panelW/2 +
+        angle * 130;
+
+    const apparentY =
+        panelY +
+        panelH/2;
+
+    //////////////////////////////////////////////////
+    // 이동 경로 저장
+    //////////////////////////////////////////////////
+
+    apparentTrail.push({
+
+        x:apparentX,
+        y:apparentY
+    });
+
+    if(apparentTrail.length > 500){
+
+        apparentTrail.shift();
+    }
+
+    //////////////////////////////////////////////////
+    // 이동 경로
+    //////////////////////////////////////////////////
+
+    ctx.strokeStyle = "#66bb6a";
+
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+
+    for(let i=0;i<apparentTrail.length;i++){
+
+        const p = apparentTrail[i];
+
+        if(i===0){
+
+            ctx.moveTo(p.x,p.y);
+
+        }else{
+
+            ctx.lineTo(p.x,p.y);
+        }
+    }
+
+    ctx.stroke();
+
+    //////////////////////////////////////////////////
+    // 화성
+    //////////////////////////////////////////////////
+
+    ctx.fillStyle = mars.color;
+
+    ctx.beginPath();
+    ctx.arc(
+        apparentX,
+        apparentY,
+        9,
+        0,
+        Math.PI*2
+    );
+
+    ctx.fill();
+
+    //////////////////////////////////////////////////
+    // 라벨
+    //////////////////////////////////////////////////
+
+    ctx.fillStyle = "white";
+    ctx.font = "16px sans-serif";
+
+    ctx.fillText(
+        "⭐ 배경별 기준 화성의 겉보기 운동",
+        panelX + 20,
+        panelY + panelH + 30
+    );
+}
+
+//////////////////////////////////////////////////////
+// 시간 표시
+//////////////////////////////////////////////////////
+
+function drawDate(){
+
+    ctx.fillStyle = "white";
+
+    ctx.font = "20px sans-serif";
+
+    ctx.fillText(
+
+        `경과 시간 : ${Math.floor(time)} 일`,
+        20,
+        canvas.height - 30
+    );
+}
+
+//////////////////////////////////////////////////////
+// 시작
+//////////////////////////////////////////////////////
+
+animate();
+
+</script>
+
+</body>
+</html>
